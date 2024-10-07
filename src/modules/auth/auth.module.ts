@@ -6,11 +6,13 @@ import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
+import { NodeMailerModule } from 'src/core/mailer/nodemailer.module';
 
 @Module({
     imports: [
         PassportModule,
         UsersModule,
+        NodeMailerModule,
         JwtModule.register({
             secret: process.env.JWTKEY,
             signOptions: { expiresIn: process.env.TOKEN_EXPIRATION },

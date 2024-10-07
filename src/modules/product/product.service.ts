@@ -1,36 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import { Product } from './product.entity';  
-
+import { PRODUCT_REPOSITORY } from 'src/core/database/constant';
 @Injectable()
 export class ProductService {
     constructor(
-        @InjectModel(Product) private productModel: typeof Product,
+        @Inject(PRODUCT_REPOSITORY) private readonly productRepository:typeof Product
     ) {}
 
     async createProduct(data: any): Promise<Product> {
-        return await this.productModel.create(data);
+        return await this.productRepository.create(data);
     }
 
     async findAllProducts(): Promise<Product[]> {
-        return await this.productModel.findAll();
+        return await this.productRepository.findAll();
     }
 
     async findProductById(id: number): Promise<Product> {
-        return await this.productModel.findByPk(id);
+        return await this.productRepository.findByPk(id);
     }
 
-    async updateProduct(id: number, data: any): Promise<Product> {
-        const product = await this.findProductById(id);
-        return product.update(data);
-    }
+    // async updateProduct(id: number, data: any): Promise<Product> {
+    //     const product = await this.productRepository.findProductById(id);
+    //     return product.update(data);
+    // }
 
-    async deleteProduct(id: number): Promise<void> {
-        const product = await this.findProductById(id);
-        await product.destroy();
-    }
+    // async deleteProduct(id: number): Promise<void> {
+    //     const product = await this.productRepository.findProductById(id);
+    //     await product.destroy();
+    // }
 }
-function InjectModel(Product: any): (target: typeof ProductService, propertyKey: undefined, parameterIndex: 0) => void {
-    throw new Error('Function not implemented.');
-}
-

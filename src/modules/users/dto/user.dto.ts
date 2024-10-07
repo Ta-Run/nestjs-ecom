@@ -29,7 +29,7 @@ export class UserDto {
 
     @IsNotEmpty()
     @IsEnum(Roll, {
-        message: 'gender must be either male or female',
+        message: 'roll must be either Customer, Admin, or Seller',
     })
     readonly roll: Roll;
 }

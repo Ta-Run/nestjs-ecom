@@ -59,45 +59,45 @@ export class ProductController {
     }
 
     // Update Product
-    @Put('update/:id')
-    @UseInterceptors(FileInterceptor('image'))
-    @ApiOperation({ summary: 'Update product by ID' })
-    @ApiConsumes('multipart/form-data')
-    @ApiParam({ name: 'id', required: true, description: 'ID of the product' })
-    @ApiBody({
-        schema: {
-            type: 'object',
-            properties: {
-                name: { type: 'string' },
-                price: { type: 'number' },
-                description: { type: 'string' },
-                image: { 
-                    type: 'string', 
-                    format: 'binary',  // Binary data for file uploads
-                },
-            },
-        },
-    })
-    @ApiResponse({ status: 200, description: 'Product updated successfully', type: Product })
-    async updateProduct(
-        @Param('id') id: number,
-        @Body() body: any,
-        @UploadedFile() file: Express.Multer.File,
-    ): Promise<Product> {
-        const imagePath = file ? file.path : body.imagePath;
-        const productData = {
-            ...body,
-            imagePath,
-        };
-        return this.productService.updateProduct(id, productData);
-    }
+    // @Put('update/:id')
+    // @UseInterceptors(FileInterceptor('image'))
+    // @ApiOperation({ summary: 'Update product by ID' })
+    // @ApiConsumes('multipart/form-data')
+    // @ApiParam({ name: 'id', required: true, description: 'ID of the product' })
+    // @ApiBody({
+    //     schema: {
+    //         type: 'object',
+    //         properties: {
+    //             name: { type: 'string' },
+    //             price: { type: 'number' },
+    //             description: { type: 'string' },
+    //             image: { 
+    //                 type: 'string', 
+    //                 format: 'binary',  // Binary data for file uploads
+    //             },
+    //         },
+    //     },
+    // })
+    // @ApiResponse({ status: 200, description: 'Product updated successfully', type: Product })
+    // async updateProduct(
+    //     @Param('id') id: number,
+    //     @Body() body: any,
+    //     @UploadedFile() file: Express.Multer.File,
+    // ): Promise<Product> {
+    //     const imagePath = file ? file.path : body.imagePath;
+    //     const productData = {
+    //         ...body,
+    //         imagePath,
+    //     };
+    //     return this.productService.updateProduct(id, productData);
+    // }
 
     // Delete Product
-    @Delete('delete/:id')
-    @ApiOperation({ summary: 'Delete product by ID' })
-    @ApiParam({ name: 'id', required: true, description: 'ID of the product' })
-    @ApiResponse({ status: 200, description: 'Product deleted successfully' })
-    async deleteProduct(@Param('id') id: number): Promise<void> {
-        return this.productService.deleteProduct(id);
-    }
+    // @Delete('delete/:id')
+    // @ApiOperation({ summary: 'Delete product by ID' })
+    // @ApiParam({ name: 'id', required: true, description: 'ID of the product' })
+    // @ApiResponse({ status: 200, description: 'Product deleted successfully' })
+    // async deleteProduct(@Param('id') id: number): Promise<void> {
+    //     return this.productService.deleteProduct(id);
+    // }
 }

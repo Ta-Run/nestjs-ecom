@@ -4,16 +4,27 @@ import { Injectable, ArgumentMetadata, BadRequestException, ValidationPipe, Unpr
 export class ValidateInputPipe extends ValidationPipe {
    public async transform(value, metadata: ArgumentMetadata) {
       try {
-        return await super.transform(value, metadata);
+         return await super.transform(value, metadata);
       } catch (e) {
          if (e instanceof BadRequestException) {
-            throw new UnprocessableEntityException(this.handleError(e.message));
+            const response = e.getResponse() as any;
+            const validationErrors = response.message;
+            throw new UnprocessableEntityException(this.handleError(validationErrors));
          }
       }
    }
 
    private handleError(errors) {
-      console.log(errors)
-      //   return errors.map(error => error.constraints);
+      console.log('errors',errors)
+      return errors.map((error) => {
+         if (typeof error === 'string') {
+            return { error };
+         }
+         return {
+            property: error.property,
+            constraints: error.constraints,
+         };
+      });
    }
+
 }

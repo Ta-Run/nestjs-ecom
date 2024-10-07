@@ -8,7 +8,9 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { WinstonModule } from 'nest-winston';
 import { ProductModule } from './modules/product/product.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 import * as winston from 'winston';
+import { NodeMailerModule } from './core/mailer/nodemailer.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import * as winston from 'winston';
     DatabaseModule,
     UsersModule,
     AuthModule,
+    MailerModule,
+    NodeMailerModule,
     ConfigModule.forRoot(),
     WinstonModule.forRoot({
       transports: [

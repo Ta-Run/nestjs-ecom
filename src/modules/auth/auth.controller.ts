@@ -14,7 +14,7 @@ export class AuthController {
         @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     ) {}
 
-    @UseGuards(AuthGuard('local'))
+    // @UseGuards(AuthGuard('local'))
     @Post('login')
     @ApiOperation({ summary: 'Log in with credentials' })  // Swagger operation summary
     @ApiResponse({
@@ -25,7 +25,7 @@ export class AuthController {
                 user: {
                     id: 1,
                     name: 'test',
-                    email: 'johndoe@example.com',
+                    email: 'jackydoe@example.com',
                     gender: 'male',
                     roll: 'Customer',
                 },
@@ -33,7 +33,7 @@ export class AuthController {
             },
         },
     })
-    @ApiResponse({ status: 401, description: 'Invalid credentials' })
+    @ApiResponse({ status: 200, description: 'success' })
     @ApiBody({
         description: 'Login credentials',
         schema: {
@@ -44,10 +44,13 @@ export class AuthController {
         },
     })
     async login(@Body() req) {
-        this.logger.info(`User ${req.user.email} is logging in.`);
-        return await this.authService.login(req.user);
-    }
 
+        // console.log(req.email ,req.password,'check req of controller')
+        const {email, password} = req
+        this.logger.info(`User ${req.password} is logging in.`);
+        return await this.authService.login(email, password);
+    }
+    // @UseGuards(AuthGuard('local'))
     @Post('signup')
     @ApiOperation({ summary: 'Sign up a new user' })  // Swagger operation summary
     @ApiResponse({
@@ -69,12 +72,13 @@ export class AuthController {
         },
     })
     @ApiResponse({ status: 400, description: 'Bad request' })
-    @ApiBody({
-        description: 'User registration details',
-        type: UserDto,  // Uses DTO to describe the input
-    })
-    async signUp(@Body() user: UserDto) {
+    // @ApiBody({
+    //     description: 'User registration details',
+    //     type: UserDto,  // Uses DTO to describe the input
+    // })
+    async signUp(@Body() user) {
         try {
+            console.log("user",user)
             this.logger.info(`Creating a new user with email: ${user.email}`);
             const newUser = await this.authService.create(user);
             return newUser;
