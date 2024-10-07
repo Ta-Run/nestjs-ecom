@@ -6,7 +6,7 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
-@ApiTags('auth')  // Swagger Tag for grouping
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -16,7 +16,7 @@ export class AuthController {
 
     // @UseGuards(AuthGuard('local'))
     @Post('login')
-    @ApiOperation({ summary: 'Log in with credentials' })  // Swagger operation summary
+    @ApiOperation({ summary: 'Log in with credentials' })  
     @ApiResponse({
         status: 200,
         description: 'Successfully logged in',
@@ -44,15 +44,13 @@ export class AuthController {
         },
     })
     async login(@Body() req) {
-
-        // console.log(req.email ,req.password,'check req of controller')
         const {email, password} = req
         this.logger.info(`User ${req.password} is logging in.`);
         return await this.authService.login(email, password);
     }
     // @UseGuards(AuthGuard('local'))
     @Post('signup')
-    @ApiOperation({ summary: 'Sign up a new user' })  // Swagger operation summary
+    @ApiOperation({ summary: 'Sign up a new user' }) 
     @ApiResponse({
         status: 201,
         description: 'Successfully signed up',
@@ -72,10 +70,9 @@ export class AuthController {
         },
     })
     @ApiResponse({ status: 400, description: 'Bad request' })
-    // @ApiBody({
-    //     description: 'User registration details',
-    //     type: UserDto,  // Uses DTO to describe the input
-    // })
+    @ApiBody({
+        description: 'User registration details',
+    })
     async signUp(@Body() user) {
         try {
             console.log("user",user)

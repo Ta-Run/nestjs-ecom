@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import { OtpService } from './otp.service';
 
 @Injectable()
 export class MailService {
     private transporter;
+   
 
-    constructor() {
+    constructor(
+
+        private readonly otpService:OtpService
+    ) {
         this.transporter = nodemailer.createTransport({
             host: 'smtp.ethereal.email', // Replace with your SMTP host
             port: 587, // Replace with your SMTP port

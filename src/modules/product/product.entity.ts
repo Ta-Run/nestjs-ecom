@@ -1,7 +1,12 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
-
+import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Subcategory } from './subcategory.entity';
 @Table
 export class Product extends Model<Product> {
+
+    @ForeignKey(() => Subcategory)
+    @Column
+    subcategoryId: number;
+
     @Column({
         type: DataType.STRING,
         allowNull: false,

@@ -3,7 +3,7 @@ import { SEQUELIZE, DEVELOPMENT, TEST, PRODUCTION } from '../database/constant';
 import { databaseConfig } from './database.config';
 import { User } from 'src/modules/users/users.entity';
 import { Product } from 'src/modules/product/product.entity';
-import { OtpEntity } from '../mailer/otp.entity';
+import { Otp } from '../mailer/otp.entity';
 export const databaseProviders = [{
     provide: SEQUELIZE,
     useFactory: async () => {
@@ -22,7 +22,7 @@ export const databaseProviders = [{
            config = databaseConfig.development;
         }
         const sequelize = new Sequelize(config);
-        sequelize.addModels([User,Product,OtpEntity]);
+        sequelize.addModels([User,Product,Otp]);
         await sequelize.sync();
         return sequelize;
     },

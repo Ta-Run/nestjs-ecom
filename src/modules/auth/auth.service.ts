@@ -15,19 +15,15 @@ export class AuthService {
 
     async validateUser(email: string, pass: string) {
         
-        console.log('data',email,pass)
+        
         const user = await this.userService.findOneByEmail(email);
         if (!user) {
             return null;
         }
-
-        // find if user password match
         const match = await this.comparePassword(pass, user.password);
         if (!match) {
             return null;
         }
-
-        // tslint:disable-next-line: no-string-literal
         const { password, ...result } = user['dataValues'];
         return result;
     }
@@ -40,13 +36,12 @@ export class AuthService {
     }
 
     public async create(user) {
-        // hash the password
 
         console.log('user',user)
         const pass = await this.hashPassword(user.password);
 
         const newUser = await this.userService.create({ ...user, password: pass });
-        await this.mailService.sendWelcomeEmail(user.email, user.name);;
+        await this.mailService.sendOtpEmail(user.email,user.name)
         
 
         const { password, email } = newUser['dataValues'];
@@ -58,10 +53,8 @@ export class AuthService {
     }
 
     private async generateToken(email) {
-        console.log('befor generate token',email)
         const payload = { email }; 
         const token = await this.jwtService.signAsync(payload);
-        console.log('after generate token',email)
         return token;
     }
 

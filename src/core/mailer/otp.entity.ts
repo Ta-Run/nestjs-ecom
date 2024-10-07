@@ -1,16 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
+import { ApiProperty } from '@nestjs/swagger';
 
-@Entity('otp')
-export class OtpEntity {
-    @PrimaryGeneratedColumn()
+@Table
+export class Otp extends Model<Otp> {
+    @ApiProperty({ description: 'The unique identifier for the OTP entry' })
+    @PrimaryKey
+    @AutoIncrement
+    @Column(DataType.INTEGER)
     id: number;
 
-    @Column()
+    @ApiProperty({ description: 'The email address associated with the OTP' })
+    @Column(DataType.STRING)
     email: string;
 
-    @Column()
+    @ApiProperty({ description: 'The OTP code' })
+    @Column(DataType.STRING)
     otp: string;
 
-    @Column()
-    expiresAt: Date; // To store the expiration time
+    @ApiProperty({ description: 'The expiration date and time for the OTP' })
+    @Column(DataType.DATE)
+    expiresAt: Date;
 }
